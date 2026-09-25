@@ -1,0 +1,8 @@
+public class array{
+    public static void main(String args[])
+    {
+        int []arr={1,2,3};
+        double[]documents=(double[])arr;
+        System.out.println(documents[0]);
+    }
+}
