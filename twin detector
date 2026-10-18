@@ -1,0 +1,71 @@
+import java.io.File;
+import java.util.Scanner;
+
+class Student {
+    private String name;
+    private int age;
+    private int rollNum;
+
+    public Student(String name, int age, int rollNum) {
+        this.name = name;
+        this.age = age;
+        this.rollNum = rollNum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getRollNum() {
+        return rollNum;
+    }
+
+    public boolean hasSameAge(Student other) {
+        return this.age == other.getAge();
+    }
+
+    public boolean isTwin(Student others) {
+        boolean sameAge = hasSameAge(others);
+        boolean sameRollNo = (this.rollNum == others.getRollNum());
+        return sameAge && sameRollNo;
+    }
+}
+
+public class TwinDetector {
+    public static void main(String[] args) throws Exception {
+        Student[] students = new Student[500];
+        int count = 0;
+        int pairs = 0;
+
+        Scanner sc = new Scanner(new File("students.txt"));
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (line.isBlank()) continue;
+
+            String[] parts = line.split(",");
+            String name = parts[0];
+            int rollNum = Integer.parseInt(parts[1]);
+            int age = Integer.parseInt(parts[2]);
+            students[count] = new Student(name, age, rollNum);
+            count++;
+        }
+
+        System.out.println("total entries:" + count);
+        System.out.println("\n==================Pairs detected==================\n");
+
+        for (int i = 0; i < count; i++) {
+            for (int j = i + 1; j < count; j++) {
+                if (students[i].isTwin(students[j])) {
+                    pairs++;
+                    System.out.println("Pair:" + pairs + " Names:" + students[i].getName() + " and " + students[j].getName() + " are twins");
+                }
+            }
+        }
+
+        System.out.println("\nTotal pairs detected:" + pairs);
+    }
+}
